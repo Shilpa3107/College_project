@@ -126,10 +126,6 @@ $conn=mysqli_connect($servername,$username,$password,$database);
     {
         echo '<script>alert("Success! Your details were successfull saved")</script>';
     }
-    else
-    {
-        echo "failed adding data".mysqli_query_error($conn);
-    } 
   
 }
 ?>
@@ -714,16 +710,16 @@ $conn=mysqli_connect($servername,$username,$password,$database);
 
 						<ul class="submenu">
 							<li class="">
-								<a href="tables.html">
+								<a href="Reochapters.php">
 									<i class="menu-icon fa fa-caret-right"></i>
-									Simple &amp; Dynamic
+									Chapters Reports
 								</a>
 
 								<b class="arrow"></b>
 							</li>
 
 							<li class="">
-								<a href="jqgrid.html">
+								<a href="ReoResearchpaper.php">
 									<i class="menu-icon fa fa-caret-right"></i>
 									jqGrid plugin
 								</a>
@@ -1074,10 +1070,11 @@ $conn=mysqli_connect($servername,$username,$password,$database);
 
 						<div class="page-header">
 							<h1>
-								Research Papers
+							Chapters in Edited Volumes/Books Published by Faculty/ Scientist
+
 								<small>
 									<i class="ace-icon fa fa-angle-double-right"></i>
-									Common form elements and layouts
+									Fill the details of chapters Edited in volumes  
 								</small>
 							</h1>
 						</div><!-- /.page-header -->
@@ -1085,7 +1082,7 @@ $conn=mysqli_connect($servername,$username,$password,$database);
 						<div class="row">
 							<div class="col-xs-12">
 								<!-- PAGE CONTENT BEGINS -->
-								<form class="form-horizontal" role="form" method="post" action="form-wizard.php" enctype="multipart/form-data">
+								<form class="form-horizontal" role="form" method="post" action="form-elements-2.php" enctype="multipart/form-data">
 									<div class="form-group">
 										<label class="col-sm-3 control-label no-padding-right" for="form-field-1"> University: </label>
 
@@ -1239,6 +1236,21 @@ $conn=mysqli_connect($servername,$username,$password,$database);
 												<div class="widget-body">
 													<div class="widget-main">
 
+													<div class="form-group">
+                                                            <label class="col-sm-3 control-label no-padding-right" for="form-field-1"> Listed in: </label>
+                    
+                                                            <div class="col-sm-9">
+                                                                <div class="inputbox" id="select">
+                                                                    <select name="listedin" id="National">
+                                                                    <option value=""></option>
+																	<option value="ugc">UGC</option>
+                                                                    <option value="pubmed">PubMed</option>
+																	<option value="ici">ICI</option>
+																	<option value="other">Others</option>
+                                                                    </select>
+                                                              </div>
+                                                            </div>
+													</div>
                                                         <div class="form-group">
                                                             <div class="control-group">
                                                                 <label class="col-sm-3 control-label no-padding-right" name="peer" for="form-field-1"> Peer Reviewed: </label>
@@ -1375,7 +1387,7 @@ $conn=mysqli_connect($servername,$username,$password,$database);
 									 
                                     <div class="clearfix form-actions">
 										<div class="col-md-offset-3 col-md-6 text-center">
-											<button class="btn btn-info" type="button">
+											<button class="btn btn-info" type="submit">
 												<i class="ace-icon fa fa-check bigger-110"></i>
 												Submit
 											</button>

@@ -498,33 +498,6 @@
 							</li>
 						</ul>
 					</li>
-
-					<li class="">
-						<a href="#" class="dropdown-toggle">
-							<i class="menu-icon fa fa-list"></i>
-							<span class="menu-text"> Tables </span>
-
-							<b class="arrow fa fa-angle-down"></b>						</a>
-
-						<b class="arrow"></b>
-
-						<ul class="submenu">
-							<li class="">
-								<a href="tables.html">
-									<i class="menu-icon fa fa-caret-right"></i>
-									Simple &amp; Dynamic								</a>
-
-								<b class="arrow"></b>							</li>
-
-							<li class="">
-								<a href="jqgrid.html">
-									<i class="menu-icon fa fa-caret-right"></i>
-									jqGrid plugin								</a>
-
-								<b class="arrow"></b>							</li>
-						</ul>
-					</li>
-
 					<li class="">
 						<a href="#" class="dropdown-toggle">
 							<i class="menu-icon fa fa-pencil-square-o"></i>
@@ -567,6 +540,32 @@
 								<a href="dropzone.html">
 									<i class="menu-icon fa fa-caret-right"></i>
 									Dropzone File Upload								</a>
+
+								<b class="arrow"></b>							</li>
+						</ul>
+					</li>
+
+					<li class="">
+						<a href="#" class="dropdown-toggle">
+							<i class="menu-icon fa fa-list"></i>
+							<span class="menu-text"> Reports </span>
+
+							<b class="arrow fa fa-angle-down"></b>						</a>
+
+						<b class="arrow"></b>
+
+						<ul class="submenu">
+							<li class="">
+								<a href="Reochapters.php">
+									<i class="menu-icon fa fa-caret-right"></i>
+									Research Papers Reports								</a>
+
+								<b class="arrow"></b>							</li>
+
+							<li class="">
+								<a href="ReoResearchpaper.php">
+									<i class="menu-icon fa fa-caret-right"></i>
+									Chapters published								</a>
 
 								<b class="arrow"></b>							</li>
 						</ul>

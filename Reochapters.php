@@ -1,11 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
+	<link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap4.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap4.min.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+		.table-responsive {
+        max-height: 400px; /* Set max height for vertical scrolling */
+        overflow-x: auto; /* Enable horizontal scrolling */
+        border: 1px solid #ddd; /* Optional: Add border for visual clarity */
+    }
+    </style>
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 		<meta charset="utf-8" />
-		<title>jqGrid - Ace Admin</title>
+		<title>Research Papers by Faculty</title>
 
-		<meta name="description" content="Dynamic tables and grids using jqGrid plugin" />
+		<meta name="description" content="Static &amp; Dynamic Tables" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
 
 		<!-- bootstrap & fontawesome -->
@@ -13,9 +36,6 @@
 		<link rel="stylesheet" href="assets/font-awesome/4.5.0/css/font-awesome.min.css" />
 
 		<!-- page specific plugin styles -->
-		<link rel="stylesheet" href="assets/css/jquery-ui.min.css" />
-		<link rel="stylesheet" href="assets/css/bootstrap-datepicker3.min.css" />
-		<link rel="stylesheet" href="assets/css/ui.jqgrid.min.css" />
 
 		<!-- text fonts -->
 		<link rel="stylesheet" href="assets/css/fonts.googleapis.com.css" />
@@ -625,19 +645,19 @@
 						<b class="arrow"></b>
 
 						<ul class="submenu">
-							<li class="">
-								<a href="tables.html">
+							<li class="active">
+								<a href="Reochapters.php">
 									<i class="menu-icon fa fa-caret-right"></i>
-									Simple &amp; Dynamic
+									Chapters Reports
 								</a>
 
 								<b class="arrow"></b>
 							</li>
 
-							<li class="active">
-								<a href="jqgrid.html">
+							<li class="">
+								<a href="ReoResearchpaper.php">
 									<i class="menu-icon fa fa-caret-right"></i>
-									jqGrid plugin
+									Research Paper Reports
 								</a>
 
 								<b class="arrow"></b>
@@ -903,7 +923,7 @@
 							<li>
 								<a href="#">Tables</a>
 							</li>
-							<li class="active">jqGrid plugin</li>
+							<li class="active">Chapters Reports</li>
 						</ul><!-- /.breadcrumb -->
 
 						<div class="nav-search" id="nav-search">
@@ -915,105 +935,86 @@
 							</form>
 						</div><!-- /.nav-search -->
 					</div>
+<div class="table-responsive ">
+	<?php
+    $servername = "localhost";
+    $username = "root";
+    $password = "";
+    $database = "scholarsphere";
 
-					<div class="page-content">
-						<div class="ace-settings-container" id="ace-settings-container">
-							<div class="btn btn-app btn-xs btn-warning ace-settings-btn" id="ace-settings-btn">
-								<i class="ace-icon fa fa-cog bigger-130"></i>
-							</div>
+    // Create connection
+    $conn = new mysqli($servername, $username, $password, $database);
 
-							<div class="ace-settings-box clearfix" id="ace-settings-box">
-								<div class="pull-left width-50">
-									<div class="ace-settings-item">
-										<div class="pull-left">
-											<select id="skin-colorpicker" class="hide">
-												<option data-skin="no-skin" value="#438EB9">#438EB9</option>
-												<option data-skin="skin-1" value="#222A2D">#222A2D</option>
-												<option data-skin="skin-2" value="#C6487E">#C6487E</option>
-												<option data-skin="skin-3" value="#D0D0D0">#D0D0D0</option>
-											</select>
-										</div>
-										<span>&nbsp; Choose Skin</span>
-									</div>
+    // Check connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
 
-									<div class="ace-settings-item">
-										<input type="checkbox" class="ace ace-checkbox-2 ace-save-state" id="ace-settings-navbar" autocomplete="off" />
-										<label class="lbl" for="ace-settings-navbar"> Fixed Navbar</label>
-									</div>
+    // SQL query to fetch data from the table
+    $sql = "SELECT * FROM bookchaptersbyfaculty";
+    $result = $conn->query($sql);
 
-									<div class="ace-settings-item">
-										<input type="checkbox" class="ace ace-checkbox-2 ace-save-state" id="ace-settings-sidebar" autocomplete="off" />
-										<label class="lbl" for="ace-settings-sidebar"> Fixed Sidebar</label>
-									</div>
+    if ($result->num_rows > 0) {
+        // Output data in a table format
+        echo '<table id="papersTable">';
+        echo '<thead><tr><th>Operation</th><th>ID</th><th>University</th><th>Department</th><th>Faculty/Scientist</th><th>Employee ID</th><th>Author/s</th><th>Co-author</th><th>Chapter Title</th><th>Region</th><th>Publication Date</th><th>Publication Year</th><th>Volume</th><th>Page From</th><th>Page To</th><th>Listed in Scopus</th><th>Listed In</th><th>Listed in Web of Science</th><th>Peer Reviewed</th><th>ISSN</th><th>ISBN</th><th>Publisher</th><th>Institutional affiliation</th><th>Co-Author</th><th>Citation Index</th><th>Number of Citation</th><th>Evidence</th><th>Any Info</th><th>Reference</th></tr></thead>';
+        echo '<tbody>';
+        while ($row = $result->fetch_assoc()) {
+            echo '<tr>';
+			echo '<td><a href="edit_r.php?id=' . $row['user_id'] . '">Edit</a></td>';
+            echo '<td>' . $row['user_id'] . '</td>';
+            echo '<td>' . $row['University'] . '</td>';
+            echo '<td>' . $row['Department'] . '</td>';
+            echo '<td>' . $row['Faculty'] . '</td>';
+            echo '<td>' . $row['Employee ID'] . '</td>';
+            echo '<td>' . $row['other Author'] . '</td>';
+            echo '<td>' . $row['Co-author'] . '</td>';
+            echo '<td>' . $row['booktitle'] . '</td>';
+            // echo '<td>' . $row['journalname'] . '</td>';
+            // echo '<td>' . $row['article'] . '</td>';
+            echo '<td>' . $row['region'] . '</td>';
+            echo '<td>' . $row['pubdate'] . '</td>';
+            echo '<td>' . $row['pubyear'] . '</td>';
+            echo '<td>' . $row['volume'] . '</td>';
+            echo '<td>' . $row['pagefrom'] . '</td>';
+            echo '<td>' . $row['pageto'] . '</td>';
+            // echo '<td>' . $row['impact'] . '</td>';
+            echo '<td>' . $row['scopus'] . '</td>';
+            echo '<td>' . $row['listedin'] . '</td>';
+            echo '<td>' . $row['wos'] . '</td>';
+            echo '<td>' . $row['peer'] . '</td>';
+            echo '<td>' . $row['issn'] . '</td>';
+            echo '<td>' . $row['isbn'] . '</td>';
+            echo '<td>' . $row['pubname'] . '</td>';
+            echo '<td>' . $row['affltn'] . '</td>';
+            echo '<td>' . $row['corrauthor'] . '</td>';
+            echo '<td>' . $row['citind'] . '</td>';
+            echo '<td>' . $row['nocit'] . '</td>';
+            // echo '<td>' . $row['link'] . '</td>';
+            echo '<td>' . $row['evdupload'] . '</td>';
+            echo '<td>' . $row['othrinfo'] . '</td>';
+            echo '<td>' . $row['ref'] . '</td>';
 
-									<div class="ace-settings-item">
-										<input type="checkbox" class="ace ace-checkbox-2 ace-save-state" id="ace-settings-breadcrumbs" autocomplete="off" />
-										<label class="lbl" for="ace-settings-breadcrumbs"> Fixed Breadcrumbs</label>
-									</div>
+            echo '</tr>';
+        }
+        echo '</tbody>';
+        echo '</table>';
+    } else {
+        echo "No results found";
+    }
 
-									<div class="ace-settings-item">
-										<input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-rtl" autocomplete="off" />
-										<label class="lbl" for="ace-settings-rtl"> Right To Left (rtl)</label>
-									</div>
+    // Close the database connection
+    $conn->close();
+?>
+</div>
+<script>
+    $(document).ready(function() {
+        // Make the table interactive with DataTables plugin
+        $('#papersTable').DataTable();
+    });
+</script>
 
-									<div class="ace-settings-item">
-										<input type="checkbox" class="ace ace-checkbox-2 ace-save-state" id="ace-settings-add-container" autocomplete="off" />
-										<label class="lbl" for="ace-settings-add-container">
-											Inside
-											<b>.container</b>
-										</label>
-									</div>
-								</div><!-- /.pull-left -->
 
-								<div class="pull-left width-50">
-									<div class="ace-settings-item">
-										<input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-hover" autocomplete="off" />
-										<label class="lbl" for="ace-settings-hover"> Submenu on Hover</label>
-									</div>
-
-									<div class="ace-settings-item">
-										<input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-compact" autocomplete="off" />
-										<label class="lbl" for="ace-settings-compact"> Compact Sidebar</label>
-									</div>
-
-									<div class="ace-settings-item">
-										<input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-highlight" autocomplete="off" />
-										<label class="lbl" for="ace-settings-highlight"> Alt. Active Item</label>
-									</div>
-								</div><!-- /.pull-left -->
-							</div><!-- /.ace-settings-box -->
-						</div><!-- /.ace-settings-container -->
-
-						<div class="page-header">
-							<h1>
-								jqGrid
-								<small>
-									<i class="ace-icon fa fa-angle-double-right"></i>
-									Dynamic tables and grids using jqGrid plugin
-								</small>
-							</h1>
-						</div><!-- /.page-header -->
-
-						<div class="row">
-							<div class="col-xs-12">
-								<!-- PAGE CONTENT BEGINS -->
-								<div class="alert alert-info">
-									<button class="close" data-dismiss="alert">
-										<i class="ace-icon fa fa-times"></i>
-									</button>
-
-									<i class="ace-icon fa fa-hand-o-right"></i>
-									Please note that demo server is not configured to save the changes, therefore you may see an error message.
-								</div>
-
-								<table id="grid-table"></table>
-
-								<div id="grid-pager"></div>
-
-								<!-- PAGE CONTENT ENDS -->
-							</div><!-- /.col -->
-						</div><!-- /.row -->
-					</div><!-- /.page-content -->
 				</div>
 			</div><!-- /.main-content -->
 
@@ -1064,9 +1065,14 @@
 		<script src="assets/js/bootstrap.min.js"></script>
 
 		<!-- page specific plugin scripts -->
-		<script src="assets/js/bootstrap-datepicker.min.js"></script>
-		<script src="assets/js/jquery.jqGrid.min.js"></script>
-		<script src="assets/js/grid.locale-en.js"></script>
+		<script src="assets/js/jquery.dataTables.min.js"></script>
+		<script src="assets/js/jquery.dataTables.bootstrap.min.js"></script>
+		<script src="assets/js/dataTables.buttons.min.js"></script>
+		<script src="assets/js/buttons.flash.min.js"></script>
+		<script src="assets/js/buttons.html5.min.js"></script>
+		<script src="assets/js/buttons.print.min.js"></script>
+		<script src="assets/js/buttons.colVis.min.js"></script>
+		<script src="assets/js/dataTables.select.min.js"></script>
 
 		<!-- ace scripts -->
 		<script src="assets/js/ace-elements.min.js"></script>
@@ -1074,416 +1080,238 @@
 
 		<!-- inline scripts related to this page -->
 		<script type="text/javascript">
-			var grid_data = 
-			[ 
-				{id:"1",name:"Desktop Computer",note:"note",stock:"Yes",ship:"FedEx", sdate:"2007-12-03"},
-				{id:"2",name:"Laptop",note:"Long text ",stock:"Yes",ship:"InTime",sdate:"2007-12-03"},
-				{id:"3",name:"LCD Monitor",note:"note3",stock:"Yes",ship:"TNT",sdate:"2007-12-03"},
-				{id:"4",name:"Speakers",note:"note",stock:"No",ship:"ARAMEX",sdate:"2007-12-03"},
-				{id:"5",name:"Laser Printer",note:"note2",stock:"Yes",ship:"FedEx",sdate:"2007-12-03"},
-				{id:"6",name:"Play Station",note:"note3",stock:"No", ship:"FedEx",sdate:"2007-12-03"},
-				{id:"7",name:"Mobile Telephone",note:"note",stock:"Yes",ship:"ARAMEX",sdate:"2007-12-03"},
-				{id:"8",name:"Server",note:"note2",stock:"Yes",ship:"TNT",sdate:"2007-12-03"},
-				{id:"9",name:"Matrix Printer",note:"note3",stock:"No", ship:"FedEx",sdate:"2007-12-03"},
-				{id:"10",name:"Desktop Computer",note:"note",stock:"Yes",ship:"FedEx", sdate:"2007-12-03"},
-				{id:"11",name:"Laptop",note:"Long text ",stock:"Yes",ship:"InTime",sdate:"2007-12-03"},
-				{id:"12",name:"LCD Monitor",note:"note3",stock:"Yes",ship:"TNT",sdate:"2007-12-03"},
-				{id:"13",name:"Speakers",note:"note",stock:"No",ship:"ARAMEX",sdate:"2007-12-03"},
-				{id:"14",name:"Laser Printer",note:"note2",stock:"Yes",ship:"FedEx",sdate:"2007-12-03"},
-				{id:"15",name:"Play Station",note:"note3",stock:"No", ship:"FedEx",sdate:"2007-12-03"},
-				{id:"16",name:"Mobile Telephone",note:"note",stock:"Yes",ship:"ARAMEX",sdate:"2007-12-03"},
-				{id:"17",name:"Server",note:"note2",stock:"Yes",ship:"TNT",sdate:"2007-12-03"},
-				{id:"18",name:"Matrix Printer",note:"note3",stock:"No", ship:"FedEx",sdate:"2007-12-03"},
-				{id:"19",name:"Matrix Printer",note:"note3",stock:"No", ship:"FedEx",sdate:"2007-12-03"},
-				{id:"20",name:"Desktop Computer",note:"note",stock:"Yes",ship:"FedEx", sdate:"2007-12-03"},
-				{id:"21",name:"Laptop",note:"Long text ",stock:"Yes",ship:"InTime",sdate:"2007-12-03"},
-				{id:"22",name:"LCD Monitor",note:"note3",stock:"Yes",ship:"TNT",sdate:"2007-12-03"},
-				{id:"23",name:"Speakers",note:"note",stock:"No",ship:"ARAMEX",sdate:"2007-12-03"}
-			];
-			
-			var subgrid_data = 
-			[
-			 {id:"1", name:"sub grid item 1", qty: 11},
-			 {id:"2", name:"sub grid item 2", qty: 3},
-			 {id:"3", name:"sub grid item 3", qty: 12},
-			 {id:"4", name:"sub grid item 4", qty: 5},
-			 {id:"5", name:"sub grid item 5", qty: 2},
-			 {id:"6", name:"sub grid item 6", qty: 9},
-			 {id:"7", name:"sub grid item 7", qty: 3},
-			 {id:"8", name:"sub grid item 8", qty: 8}
-			];
-			
 			jQuery(function($) {
-				var grid_selector = "#grid-table";
-				var pager_selector = "#grid-pager";
-				
-				
-				var parent_column = $(grid_selector).closest('[class*="col-"]');
-				//resize to fit page size
-				$(window).on('resize.jqGrid', function () {
-					$(grid_selector).jqGrid( 'setGridWidth', parent_column.width() );
-			    })
-				
-				//resize on sidebar collapse/expand
-				$(document).on('settings.ace.jqGrid' , function(ev, event_name, collapsed) {
-					if( event_name === 'sidebar_collapsed' || event_name === 'main_container_fixed' ) {
-						//setTimeout is for webkit only to give time for DOM changes and then redraw!!!
-						setTimeout(function() {
-							$(grid_selector).jqGrid( 'setGridWidth', parent_column.width() );
-						}, 20);
+				//initiate dataTables plugin
+				var myTable = 
+				$('#dynamic-table')
+				//.wrap("<div class='dataTables_borderWrap' />")   //if you are applying horizontal scrolling (sScrollX)
+				.DataTable( {
+					bAutoWidth: false,
+					"aoColumns": [
+					  { "bSortable": false },
+					  null, null,null, null, null,
+					  { "bSortable": false }
+					],
+					"aaSorting": [],
+					
+					
+					//"bProcessing": true,
+			        //"bServerSide": true,
+			        //"sAjaxSource": "http://127.0.0.1/table.php"	,
+			
+					//,
+					//"sScrollY": "200px",
+					//"bPaginate": false,
+			
+					//"sScrollX": "100%",
+					//"sScrollXInner": "120%",
+					//"bScrollCollapse": true,
+					//Note: if you are applying horizontal scrolling (sScrollX) on a ".table-bordered"
+					//you may want to wrap the table inside a "div.dataTables_borderWrap" element
+			
+					//"iDisplayLength": 50
+			
+			
+					select: {
+						style: 'multi'
 					}
-			    })
+			    } );
+			
 				
-				//if your grid is inside another element, for example a tab pane, you should use its parent's width:
+				
+				$.fn.dataTable.Buttons.defaults.dom.container.className = 'dt-buttons btn-overlap btn-group btn-overlap';
+				
+				new $.fn.dataTable.Buttons( myTable, {
+					buttons: [
+					  {
+						"extend": "colvis",
+						"text": "<i class='fa fa-search bigger-110 blue'></i> <span class='hidden'>Show/hide columns</span>",
+						"className": "btn btn-white btn-primary btn-bold",
+						columns: ':not(:first):not(:last)'
+					  },
+					  {
+						"extend": "copy",
+						"text": "<i class='fa fa-copy bigger-110 pink'></i> <span class='hidden'>Copy to clipboard</span>",
+						"className": "btn btn-white btn-primary btn-bold"
+					  },
+					  {
+						"extend": "csv",
+						"text": "<i class='fa fa-database bigger-110 orange'></i> <span class='hidden'>Export to CSV</span>",
+						"className": "btn btn-white btn-primary btn-bold"
+					  },
+					  {
+						"extend": "excel",
+						"text": "<i class='fa fa-file-excel-o bigger-110 green'></i> <span class='hidden'>Export to Excel</span>",
+						"className": "btn btn-white btn-primary btn-bold"
+					  },
+					  {
+						"extend": "pdf",
+						"text": "<i class='fa fa-file-pdf-o bigger-110 red'></i> <span class='hidden'>Export to PDF</span>",
+						"className": "btn btn-white btn-primary btn-bold"
+					  },
+					  {
+						"extend": "print",
+						"text": "<i class='fa fa-print bigger-110 grey'></i> <span class='hidden'>Print</span>",
+						"className": "btn btn-white btn-primary btn-bold",
+						autoPrint: false,
+						message: 'This print was produced using the Print button for DataTables'
+					  }		  
+					]
+				} );
+				myTable.buttons().container().appendTo( $('.tableTools-container') );
+				
+				//style the message box
+				var defaultCopyAction = myTable.button(1).action();
+				myTable.button(1).action(function (e, dt, button, config) {
+					defaultCopyAction(e, dt, button, config);
+					$('.dt-button-info').addClass('gritter-item-wrapper gritter-info gritter-center white');
+				});
+				
+				
+				var defaultColvisAction = myTable.button(0).action();
+				myTable.button(0).action(function (e, dt, button, config) {
+					
+					defaultColvisAction(e, dt, button, config);
+					
+					
+					if($('.dt-button-collection > .dropdown-menu').length == 0) {
+						$('.dt-button-collection')
+						.wrapInner('<ul class="dropdown-menu dropdown-light dropdown-caret dropdown-caret" />')
+						.find('a').attr('href', '#').wrap("<li />")
+					}
+					$('.dt-button-collection').appendTo('.tableTools-container .dt-buttons')
+				});
+			
+				////
+			
+				setTimeout(function() {
+					$($('.tableTools-container')).find('a.dt-button').each(function() {
+						var div = $(this).find(' > div').first();
+						if(div.length == 1) div.tooltip({container: 'body', title: div.parent().text()});
+						else $(this).tooltip({container: 'body', title: $(this).text()});
+					});
+				}, 500);
+				
+				
+				
+				
+				
+				myTable.on( 'select', function ( e, dt, type, index ) {
+					if ( type === 'row' ) {
+						$( myTable.row( index ).node() ).find('input:checkbox').prop('checked', true);
+					}
+				} );
+				myTable.on( 'deselect', function ( e, dt, type, index ) {
+					if ( type === 'row' ) {
+						$( myTable.row( index ).node() ).find('input:checkbox').prop('checked', false);
+					}
+				} );
+			
+			
+			
+			
+				/////////////////////////////////
+				//table checkboxes
+				$('th input[type=checkbox], td input[type=checkbox]').prop('checked', false);
+				
+				//select/deselect all rows according to table header checkbox
+				$('#dynamic-table > thead > tr > th input[type=checkbox], #dynamic-table_wrapper input[type=checkbox]').eq(0).on('click', function(){
+					var th_checked = this.checked;//checkbox inside "TH" table header
+					
+					$('#dynamic-table').find('tbody > tr').each(function(){
+						var row = this;
+						if(th_checked) myTable.row(row).select();
+						else  myTable.row(row).deselect();
+					});
+				});
+				
+				//select/deselect a row when the checkbox is checked/unchecked
+				$('#dynamic-table').on('click', 'td input[type=checkbox]' , function(){
+					var row = $(this).closest('tr').get(0);
+					if(this.checked) myTable.row(row).deselect();
+					else myTable.row(row).select();
+				});
+			
+			
+			
+				$(document).on('click', '#dynamic-table .dropdown-toggle', function(e) {
+					e.stopImmediatePropagation();
+					e.stopPropagation();
+					e.preventDefault();
+				});
+				
+				
+				
+				//And for the first simple table, which doesn't have TableTools or dataTables
+				//select/deselect all rows according to table header checkbox
+				var active_class = 'active';
+				$('#simple-table > thead > tr > th input[type=checkbox]').eq(0).on('click', function(){
+					var th_checked = this.checked;//checkbox inside "TH" table header
+					
+					$(this).closest('table').find('tbody > tr').each(function(){
+						var row = this;
+						if(th_checked) $(row).addClass(active_class).find('input[type=checkbox]').eq(0).prop('checked', true);
+						else $(row).removeClass(active_class).find('input[type=checkbox]').eq(0).prop('checked', false);
+					});
+				});
+				
+				//select/deselect a row when the checkbox is checked/unchecked
+				$('#simple-table').on('click', 'td input[type=checkbox]' , function(){
+					var $row = $(this).closest('tr');
+					if($row.is('.detail-row ')) return;
+					if(this.checked) $row.addClass(active_class);
+					else $row.removeClass(active_class);
+				});
+			
+				
+			
+				/********************************/
+				//add tooltip for small view action buttons in dropdown menu
+				$('[data-rel="tooltip"]').tooltip({placement: tooltip_placement});
+				
+				//tooltip placement on right or left
+				function tooltip_placement(context, source) {
+					var $source = $(source);
+					var $parent = $source.closest('table')
+					var off1 = $parent.offset();
+					var w1 = $parent.width();
+			
+					var off2 = $source.offset();
+					//var w2 = $source.width();
+			
+					if( parseInt(off2.left) < parseInt(off1.left) + parseInt(w1 / 2) ) return 'right';
+					return 'left';
+				}
+				
+				
+				
+				
+				/***************/
+				$('.show-details-btn').on('click', function(e) {
+					e.preventDefault();
+					$(this).closest('tr').next().toggleClass('open');
+					$(this).find(ace.vars['.icon']).toggleClass('fa-angle-double-down').toggleClass('fa-angle-double-up');
+				});
+				/***************/
+				
+				
+				
+				
+				
 				/**
-				$(window).on('resize.jqGrid', function () {
-					var parent_width = $(grid_selector).closest('.tab-pane').width();
-					$(grid_selector).jqGrid( 'setGridWidth', parent_width );
-				})
-				//and also set width when tab pane becomes visible
-				$('#myTab a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-				  if($(e.target).attr('href') == '#mygrid') {
-					var parent_width = $(grid_selector).closest('.tab-pane').width();
-					$(grid_selector).jqGrid( 'setGridWidth', parent_width );
+				//add horizontal scrollbars to a simple table
+				$('#simple-table').css({'width':'2000px', 'max-width': 'none'}).wrap('<div style="width: 1000px;" />').parent().ace_scroll(
+				  {
+					horizontal: true,
+					styleClass: 'scroll-top scroll-dark scroll-visible',//show the scrollbars on top(default is bottom)
+					size: 2000,
+					mouseWheelLock: true
 				  }
-				})
+				).css('padding-top', '12px');
 				*/
-				
-				
 			
 			
-			
-				jQuery(grid_selector).jqGrid({
-					//direction: "rtl",
-			
-					//subgrid options
-					subGrid : true,
-					//subGridModel: [{ name : ['No','Item Name','Qty'], width : [55,200,80] }],
-					//datatype: "xml",
-					subGridOptions : {
-						plusicon : "ace-icon fa fa-plus center bigger-110 blue",
-						minusicon  : "ace-icon fa fa-minus center bigger-110 blue",
-						openicon : "ace-icon fa fa-chevron-right center orange"
-					},
-					//for this example we are using local data
-					subGridRowExpanded: function (subgridDivId, rowId) {
-						var subgridTableId = subgridDivId + "_t";
-						$("#" + subgridDivId).html("<table id='" + subgridTableId + "'></table>");
-						$("#" + subgridTableId).jqGrid({
-							datatype: 'local',
-							data: subgrid_data,
-							colNames: ['No','Item Name','Qty'],
-							colModel: [
-								{ name: 'id', width: 50 },
-								{ name: 'name', width: 150 },
-								{ name: 'qty', width: 50 }
-							]
-						});
-					},
-					
-			
-			
-					data: grid_data,
-					datatype: "local",
-					height: 250,
-					colNames:[' ', 'ID','Last Sales','Name', 'Stock', 'Ship via','Notes'],
-					colModel:[
-						{name:'myac',index:'', width:80, fixed:true, sortable:false, resize:false,
-							formatter:'actions', 
-							formatoptions:{ 
-								keys:true,
-								//delbutton: false,//disable delete button
-								
-								delOptions:{recreateForm: true, beforeShowForm:beforeDeleteCallback},
-								//editformbutton:true, editOptions:{recreateForm: true, beforeShowForm:beforeEditCallback}
-							}
-						},
-						{name:'id',index:'id', width:60, sorttype:"int", editable: true},
-						{name:'sdate',index:'sdate',width:90, editable:true, sorttype:"date",unformat: pickDate},
-						{name:'name',index:'name', width:150,editable: true,editoptions:{size:"20",maxlength:"30"}},
-						{name:'stock',index:'stock', width:70, editable: true,edittype:"checkbox",editoptions: {value:"Yes:No"},unformat: aceSwitch},
-						{name:'ship',index:'ship', width:90, editable: true,edittype:"select",editoptions:{value:"FE:FedEx;IN:InTime;TN:TNT;AR:ARAMEX"}},
-						{name:'note',index:'note', width:150, sortable:false,editable: true,edittype:"textarea", editoptions:{rows:"2",cols:"10"}} 
-					], 
-			
-					viewrecords : true,
-					rowNum:10,
-					rowList:[10,20,30],
-					pager : pager_selector,
-					altRows: true,
-					//toppager: true,
-					
-					multiselect: true,
-					//multikey: "ctrlKey",
-			        multiboxonly: true,
-			
-					loadComplete : function() {
-						var table = this;
-						setTimeout(function(){
-							styleCheckbox(table);
-							
-							updateActionIcons(table);
-							updatePagerIcons(table);
-							enableTooltips(table);
-						}, 0);
-					},
-			
-					editurl: "./dummy.php",//nothing is saved
-					caption: "jqGrid with inline editing"
-			
-					//,autowidth: true,
-			
-			
-					/**
-					,
-					grouping:true, 
-					groupingView : { 
-						 groupField : ['name'],
-						 groupDataSorted : true,
-						 plusicon : 'fa fa-chevron-down bigger-110',
-						 minusicon : 'fa fa-chevron-up bigger-110'
-					},
-					caption: "Grouping"
-					*/
-			
-				});
-				$(window).triggerHandler('resize.jqGrid');//trigger window resize to make the grid get the correct size
-				
-				
-			
-				//enable search/filter toolbar
-				//jQuery(grid_selector).jqGrid('filterToolbar',{defaultSearch:true,stringResult:true})
-				//jQuery(grid_selector).filterToolbar({});
-			
-			
-				//switch element when editing inline
-				function aceSwitch( cellvalue, options, cell ) {
-					setTimeout(function(){
-						$(cell) .find('input[type=checkbox]')
-							.addClass('ace ace-switch ace-switch-5')
-							.after('<span class="lbl"></span>');
-					}, 0);
-				}
-				//enable datepicker
-				function pickDate( cellvalue, options, cell ) {
-					setTimeout(function(){
-						$(cell) .find('input[type=text]')
-							.datepicker({format:'yyyy-mm-dd' , autoclose:true}); 
-					}, 0);
-				}
-			
-			
-				//navButtons
-				jQuery(grid_selector).jqGrid('navGrid',pager_selector,
-					{ 	//navbar options
-						edit: true,
-						editicon : 'ace-icon fa fa-pencil blue',
-						add: true,
-						addicon : 'ace-icon fa fa-plus-circle purple',
-						del: true,
-						delicon : 'ace-icon fa fa-trash-o red',
-						search: true,
-						searchicon : 'ace-icon fa fa-search orange',
-						refresh: true,
-						refreshicon : 'ace-icon fa fa-refresh green',
-						view: true,
-						viewicon : 'ace-icon fa fa-search-plus grey',
-					},
-					{
-						//edit record form
-						//closeAfterEdit: true,
-						//width: 700,
-						recreateForm: true,
-						beforeShowForm : function(e) {
-							var form = $(e[0]);
-							form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />')
-							style_edit_form(form);
-						}
-					},
-					{
-						//new record form
-						//width: 700,
-						closeAfterAdd: true,
-						recreateForm: true,
-						viewPagerButtons: false,
-						beforeShowForm : function(e) {
-							var form = $(e[0]);
-							form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar')
-							.wrapInner('<div class="widget-header" />')
-							style_edit_form(form);
-						}
-					},
-					{
-						//delete record form
-						recreateForm: true,
-						beforeShowForm : function(e) {
-							var form = $(e[0]);
-							if(form.data('styled')) return false;
-							
-							form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />')
-							style_delete_form(form);
-							
-							form.data('styled', true);
-						},
-						onClick : function(e) {
-							//alert(1);
-						}
-					},
-					{
-						//search form
-						recreateForm: true,
-						afterShowSearch: function(e){
-							var form = $(e[0]);
-							form.closest('.ui-jqdialog').find('.ui-jqdialog-title').wrap('<div class="widget-header" />')
-							style_search_form(form);
-						},
-						afterRedraw: function(){
-							style_search_filters($(this));
-						}
-						,
-						multipleSearch: true,
-						/**
-						multipleGroup:true,
-						showQuery: true
-						*/
-					},
-					{
-						//view record form
-						recreateForm: true,
-						beforeShowForm: function(e){
-							var form = $(e[0]);
-							form.closest('.ui-jqdialog').find('.ui-jqdialog-title').wrap('<div class="widget-header" />')
-						}
-					}
-				)
-			
-			
-				
-				function style_edit_form(form) {
-					//enable datepicker on "sdate" field and switches for "stock" field
-					form.find('input[name=sdate]').datepicker({format:'yyyy-mm-dd' , autoclose:true})
-					
-					form.find('input[name=stock]').addClass('ace ace-switch ace-switch-5').after('<span class="lbl"></span>');
-							   //don't wrap inside a label element, the checkbox value won't be submitted (POST'ed)
-							  //.addClass('ace ace-switch ace-switch-5').wrap('<label class="inline" />').after('<span class="lbl"></span>');
-			
-							
-					//update buttons classes
-					var buttons = form.next().find('.EditButton .fm-button');
-					buttons.addClass('btn btn-sm').find('[class*="-icon"]').hide();//ui-icon, s-icon
-					buttons.eq(0).addClass('btn-primary').prepend('<i class="ace-icon fa fa-check"></i>');
-					buttons.eq(1).prepend('<i class="ace-icon fa fa-times"></i>')
-					
-					buttons = form.next().find('.navButton a');
-					buttons.find('.ui-icon').hide();
-					buttons.eq(0).append('<i class="ace-icon fa fa-chevron-left"></i>');
-					buttons.eq(1).append('<i class="ace-icon fa fa-chevron-right"></i>');		
-				}
-			
-				function style_delete_form(form) {
-					var buttons = form.next().find('.EditButton .fm-button');
-					buttons.addClass('btn btn-sm btn-white btn-round').find('[class*="-icon"]').hide();//ui-icon, s-icon
-					buttons.eq(0).addClass('btn-danger').prepend('<i class="ace-icon fa fa-trash-o"></i>');
-					buttons.eq(1).addClass('btn-default').prepend('<i class="ace-icon fa fa-times"></i>')
-				}
-				
-				function style_search_filters(form) {
-					form.find('.delete-rule').val('X');
-					form.find('.add-rule').addClass('btn btn-xs btn-primary');
-					form.find('.add-group').addClass('btn btn-xs btn-success');
-					form.find('.delete-group').addClass('btn btn-xs btn-danger');
-				}
-				function style_search_form(form) {
-					var dialog = form.closest('.ui-jqdialog');
-					var buttons = dialog.find('.EditTable')
-					buttons.find('.EditButton a[id*="_reset"]').addClass('btn btn-sm btn-info').find('.ui-icon').attr('class', 'ace-icon fa fa-retweet');
-					buttons.find('.EditButton a[id*="_query"]').addClass('btn btn-sm btn-inverse').find('.ui-icon').attr('class', 'ace-icon fa fa-comment-o');
-					buttons.find('.EditButton a[id*="_search"]').addClass('btn btn-sm btn-purple').find('.ui-icon').attr('class', 'ace-icon fa fa-search');
-				}
-				
-				function beforeDeleteCallback(e) {
-					var form = $(e[0]);
-					if(form.data('styled')) return false;
-					
-					form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />')
-					style_delete_form(form);
-					
-					form.data('styled', true);
-				}
-				
-				function beforeEditCallback(e) {
-					var form = $(e[0]);
-					form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />')
-					style_edit_form(form);
-				}
-			
-			
-			
-				//it causes some flicker when reloading or navigating grid
-				//it may be possible to have some custom formatter to do this as the grid is being created to prevent this
-				//or go back to default browser checkbox styles for the grid
-				function styleCheckbox(table) {
-				/**
-					$(table).find('input:checkbox').addClass('ace')
-					.wrap('<label />')
-					.after('<span class="lbl align-top" />')
-			
-			
-					$('.ui-jqgrid-labels th[id*="_cb"]:first-child')
-					.find('input.cbox[type=checkbox]').addClass('ace')
-					.wrap('<label />').after('<span class="lbl align-top" />');
-				*/
-				}
-				
-			
-				//unlike navButtons icons, action icons in rows seem to be hard-coded
-				//you can change them like this in here if you want
-				function updateActionIcons(table) {
-					/**
-					var replacement = 
-					{
-						'ui-ace-icon fa fa-pencil' : 'ace-icon fa fa-pencil blue',
-						'ui-ace-icon fa fa-trash-o' : 'ace-icon fa fa-trash-o red',
-						'ui-icon-disk' : 'ace-icon fa fa-check green',
-						'ui-icon-cancel' : 'ace-icon fa fa-times red'
-					};
-					$(table).find('.ui-pg-div span.ui-icon').each(function(){
-						var icon = $(this);
-						var $class = $.trim(icon.attr('class').replace('ui-icon', ''));
-						if($class in replacement) icon.attr('class', 'ui-icon '+replacement[$class]);
-					})
-					*/
-				}
-				
-				//replace icons with FontAwesome icons like above
-				function updatePagerIcons(table) {
-					var replacement = 
-					{
-						'ui-icon-seek-first' : 'ace-icon fa fa-angle-double-left bigger-140',
-						'ui-icon-seek-prev' : 'ace-icon fa fa-angle-left bigger-140',
-						'ui-icon-seek-next' : 'ace-icon fa fa-angle-right bigger-140',
-						'ui-icon-seek-end' : 'ace-icon fa fa-angle-double-right bigger-140'
-					};
-					$('.ui-pg-table:not(.navtable) > tbody > tr > .ui-pg-button > .ui-icon').each(function(){
-						var icon = $(this);
-						var $class = $.trim(icon.attr('class').replace('ui-icon', ''));
-						
-						if($class in replacement) icon.attr('class', 'ui-icon '+replacement[$class]);
-					})
-				}
-			
-				function enableTooltips(table) {
-					$('.navtable .ui-pg-button').tooltip({container:'body'});
-					$(table).find('.ui-pg-div').tooltip({container:'body'});
-				}
-			
-				//var selr = jQuery(grid_selector).jqGrid('getGridParam','selrow');
-			
-				$(document).one('ajaxloadstart.page', function(e) {
-					$.jgrid.gridDestroy(grid_selector);
-					$('.ui-jqdialog').remove();
-				});
-			});
+			})
 		</script>
 	</body>
 </html>
