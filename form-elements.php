@@ -706,16 +706,16 @@ if($_SERVER['REQUEST_METHOD']=='POST') {
 
 						<ul class="submenu">
 							<li class="">
-								<a href="tables.html">
+								<a href="Reochapters.php">
 									<i class="menu-icon fa fa-caret-right"></i>
-									Simple &amp; Dynamic
+									Chapters Reports
 								</a>
 
 								<b class="arrow"></b>
 							</li>
 
 							<li class="">
-								<a href="jqgrid.html">
+								<a href="ReoResearchpaper.php">
 									<i class="menu-icon fa fa-caret-right"></i>
 									jqGrid plugin
 								</a>
@@ -1069,7 +1069,7 @@ if($_SERVER['REQUEST_METHOD']=='POST') {
 								Research Paper
 								<small>
 									<i class="ace-icon fa fa-angle-double-right"></i>
-									Common form elements and layouts
+									Fill in the datails about your Research Paper
 								</small>
 							</h1>
 						</div><!-- /.page-header -->
@@ -1779,7 +1779,7 @@ if($_SERVER['REQUEST_METHOD']=='POST') {
 									<!-- </div> -->
 									<div class="clearfix form-actions">
 										<div class="col-md-offset-3 col-md-6 text-center">
-											<button class="btn btn-info" type="button">
+											<button class="btn btn-info" type="submit">
 												<i class="ace-icon fa fa-check bigger-110"></i>
 												Submit
 											</button>
